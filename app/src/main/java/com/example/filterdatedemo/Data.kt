@@ -5,7 +5,20 @@ import java.util.Date
 
 object Data {
 
-    fun getYearToStatementsMap(statements: List<Statement>): List<Pair<String, List<Statement>>> {
+    fun getFilterOptions(statements: List<Statement>): List<FilterOption> {
+        val filterPairs: List<Pair<String, List<Statement>>> =
+            listOf(Pair("Last 12 Months", getLast12MonthsStatements(statements))) + getYearToStatementsMap(statements)
+
+        return filterPairs.mapIndexed { index, (option, statementList) ->
+            FilterOption(option, statementList, index == 0)
+        }
+    }
+
+//    fun getStatementsForYear(year: String, statements: List<Statement>): List<Statement>? {
+//        return getYearToStatementsMap(statements).find { it.first == year }?.second
+//    }
+
+    private fun getYearToStatementsMap(statements: List<Statement>): List<Pair<String, List<Statement>>> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         val uniqueYears = statements.filter { it.date.year + 1900 != currentYear }.map { it.date.year + 1900 }.distinct().sortedDescending()
