@@ -15,7 +15,7 @@ object Data {
     }
     fun printList(filterList: List<FilterOption>){
         filterList.forEach{
-            println("option ${it.option}   " + "enable: ${it.checked}" )
+            println("option ${it.option}   " + "enable: ${it.selected}" )
         }
     }
 

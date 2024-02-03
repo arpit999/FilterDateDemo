@@ -61,7 +61,7 @@ fun FilterOptions(filterOptions: List<FilterOption>) {
                 filterOption = option,
                 onChipClick = {
 
-                    changeChipChecked(it, !it.checked)
+                    changeChipChecked(it, !it.selected)
 //                    it[index] = _itemList[index].copy(enable = !it.checked)
                     Data.printList(_filterOptions)
                 }
