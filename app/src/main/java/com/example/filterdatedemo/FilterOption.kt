@@ -1,3 +1,11 @@
 package com.example.filterdatedemo
 
-data class FilterOption(val option: String, val statement: List<Statement>, var enable: Boolean = false)
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+@Immutable
+data class FilterOption(val option: String, val statement: List<Statement>, val checked: Boolean = false){
+    var selected by mutableStateOf(checked)
+}

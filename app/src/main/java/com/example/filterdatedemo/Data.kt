@@ -13,6 +13,11 @@ object Data {
             FilterOption(option, statementList, index == 0)
         }
     }
+    fun printList(filterList: List<FilterOption>){
+        filterList.forEach{
+            println("option ${it.option}   " + "enable: ${it.checked}" )
+        }
+    }
 
 //    fun getStatementsForYear(year: String, statements: List<Statement>): List<Statement>? {
 //        return getYearToStatementsMap(statements).find { it.first == year }?.second
@@ -30,7 +35,7 @@ object Data {
     }
 
     // Function to get the last 12 months statements
-    fun getLast12MonthsStatements(statements: List<Statement>): List<Statement> {
+    private fun getLast12MonthsStatements(statements: List<Statement>): List<Statement> {
         val currentDate = Date()
         val last12MonthsStart = Calendar.getInstance().apply { add(Calendar.MONTH, -12) }.time
         return statements.filter { it.date >= last12MonthsStart && it.date <= currentDate }.sortedByDescending { it.date }
@@ -41,8 +46,8 @@ object Data {
         val currentDate = Date()
         val calendar = Calendar.getInstance()
 
-        // Generate statements for each month in the last 3 years
-        for (year in (currentDate.year - 3 + 1900)..(currentDate.year + 1900)) {
+        // Generate statements for each month in the last 10 years
+        for (year in (currentDate.year - 10 + 1900)..(currentDate.year + 1900)) {
             for (month in 0 until 12) {
                 calendar.set(year, month, 1)
                 val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -58,7 +63,7 @@ object Data {
             }
         }
 
-        println("Generated semi-monthly statements for the last 20 years:")
+        println("Generated semi-monthly statements for the last 10 years:")
         statements.forEach { println("Statement ID: ${it.id}, Date: ${it.date}") }
 
         return statements
