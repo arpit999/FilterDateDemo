@@ -22,7 +22,7 @@ fun FilterChip(filterOption: FilterOption, selected: Boolean? = null, onChipClic
             Text(filterOption.option)
         },
         selected = selected ?: filterOption.selected,
-        leadingIcon = if (filterOption.selected) {
+        leadingIcon = if (selected ?: filterOption.selected) {
             {
                 Icon(
                     imageVector = Icons.Filled.Done,
@@ -35,26 +35,3 @@ fun FilterChip(filterOption: FilterOption, selected: Boolean? = null, onChipClic
         },
     )
 }
-
-
-//@Composable
-//fun FilterChipList(selected: Boolean, filterOption: FilterOption) {
-//    FilterChip(
-//        onClick = { onChipClick(filterOption) },
-//        label = {
-//            Text(filterOption.option)
-//        },
-//        selected = selected,
-//        leadingIcon = if (filterOption.selected) {
-//            {
-//                Icon(
-//                    imageVector = Icons.Filled.Done,
-//                    contentDescription = "Done icon",
-//                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-//                )
-//            }
-//        } else {
-//            null
-//        },
-//    )
-//}

@@ -39,9 +39,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FilterDateDemoTheme {
-                MultiSelectScreen()
+//                MultiSelectScreen()
 
-//                SingleSelectScreen()
+                SingleSelectScreen()
             }
         }
     }
