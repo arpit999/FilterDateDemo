@@ -39,6 +39,7 @@ fun SingleSelectScreen() {
             LazyRow(modifier = Modifier, horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 8.dp)) {
                 items(filterOptions) { option ->
                     FilterChip(
+                        selected = option == selectedFilter,
                         filterOption = option,
                         onChipClick = {
                             selectedFilter = it
@@ -47,10 +48,7 @@ fun SingleSelectScreen() {
                 }
             }
 
-
-
             LazyColumn {
-
                 stickyHeader {
                     Column(
                         modifier = Modifier
@@ -75,7 +73,6 @@ fun SingleSelectScreen() {
                             .fillMaxWidth(), text = it.displayDate
                     )
                 }
-
             }
 
         }

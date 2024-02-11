@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -13,14 +14,14 @@ import com.example.filterdatedemo.data.FilterOption
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterChip(filterOption: FilterOption, onChipClick: (FilterOption) -> Unit) {
+fun FilterChip(filterOption: FilterOption, selected: Boolean? = null, onChipClick: (FilterOption) -> Unit) {
 
-    androidx.compose.material3.FilterChip(
+    FilterChip(
         onClick = { onChipClick(filterOption) },
         label = {
             Text(filterOption.option)
         },
-        selected = filterOption.selected,
+        selected = selected ?: filterOption.selected,
         leadingIcon = if (filterOption.selected) {
             {
                 Icon(
@@ -34,3 +35,26 @@ fun FilterChip(filterOption: FilterOption, onChipClick: (FilterOption) -> Unit) 
         },
     )
 }
+
+
+//@Composable
+//fun FilterChipList(selected: Boolean, filterOption: FilterOption) {
+//    FilterChip(
+//        onClick = { onChipClick(filterOption) },
+//        label = {
+//            Text(filterOption.option)
+//        },
+//        selected = selected,
+//        leadingIcon = if (filterOption.selected) {
+//            {
+//                Icon(
+//                    imageVector = Icons.Filled.Done,
+//                    contentDescription = "Done icon",
+//                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+//                )
+//            }
+//        } else {
+//            null
+//        },
+//    )
+//}
