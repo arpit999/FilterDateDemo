@@ -39,16 +39,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FilterDateDemoTheme {
-//                FilterScreen()
+                MultiSelectScreen()
 
-                SingleSelectScreen()
+//                SingleSelectScreen()
             }
         }
     }
 }
 
 @Composable
-fun FilterScreen() {
+fun MultiSelectScreen() {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column {
             // show filter options
@@ -115,6 +115,6 @@ fun FilterList(filterOption: List<FilterOption>) {
 @Composable
 fun GreetingPreview() {
     FilterDateDemoTheme {
-        FilterScreen()
+        MultiSelectScreen()
     }
 }
