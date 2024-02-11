@@ -1,9 +1,11 @@
-package com.example.filterdatedemo
+package com.example.filterdatedemo.data
 
 import java.util.Calendar
 import java.util.Date
 
-object Data {
+object DummyData {
+
+    val filterOptions = getFilterOptions(generateSemiMonthlyStatements())
 
     fun getFilterOptions(statements: List<Statement>): List<FilterOption> {
         val filterPairs: List<Pair<String, List<Statement>>> =

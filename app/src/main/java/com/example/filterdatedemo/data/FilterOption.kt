@@ -1,4 +1,4 @@
-package com.example.filterdatedemo
+package com.example.filterdatedemo.data
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
