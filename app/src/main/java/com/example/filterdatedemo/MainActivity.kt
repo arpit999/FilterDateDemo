@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -41,7 +43,10 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Column {
+                        // show filter options
                         FilterOptions(filterOptions)
+
+                        FilterList(filterOptions)
                     }
                 }
             }
@@ -63,6 +68,24 @@ fun FilterOptions(filterOptions: List<FilterOption>) {
             )
         }
     }
+}
+
+@Composable
+fun FilterList(filterOption: List<FilterOption>) {
+    val list = mutableListOf<Statement>()
+
+    filterOption.forEach{
+        if (it.selected){
+            list += it.statement
+        }
+    }
+
+    LazyColumn{
+        items(list){
+            Text(modifier = Modifier.fillMaxWidth(),text = it.displayDate)
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
