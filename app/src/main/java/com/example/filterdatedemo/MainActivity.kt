@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,18 +20,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.filterdatedemo.ui.theme.FilterDateDemoTheme
 
 
-//val _itemList = mutableStateListOf<FilterOption>()
-//val itemList: List<FilterOption> = _itemList
-val _filterOptions = Data.getFilterOptions(Data.generateSemiMonthlyStatements()).toMutableStateList()
+val filterOptions = Data.getFilterOptions(Data.generateSemiMonthlyStatements())
 fun changeChipChecked(item: FilterOption, checked: Boolean) =
-    _filterOptions.find { it.option == item.option }?.let { task ->
+    filterOptions.find { it.option == item.option }?.let { task ->
         task.selected = checked
     }
 
@@ -44,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Column {
-                        FilterOptions(_filterOptions)
+                        FilterOptions(filterOptions)
                     }
                 }
             }
@@ -56,28 +53,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FilterOptions(filterOptions: List<FilterOption>) {
     LazyRow(modifier = Modifier, horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 8.dp)) {
-        itemsIndexed(filterOptions) { index, option ->
+        items(filterOptions) { option ->
             FilterChip(
                 filterOption = option,
                 onChipClick = {
-
                     changeChipChecked(it, !it.selected)
-//                    it[index] = _itemList[index].copy(enable = !it.checked)
-                    Data.printList(_filterOptions)
+                    Data.printList(com.example.filterdatedemo.filterOptions)
                 }
             )
         }
     }
-
-//    Row {
-//        filterOptions.forEachIndexed { index, filterOption ->
-//            FilterChip(filterOption) {
-//                _itemList[index] = _itemList[index].copy(enable = !it.enable)
-//                Data.printList(itemList)
-//            }
-//        }
-//    }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,7 +96,7 @@ fun GreetingPreview() {
 
     FilterDateDemoTheme {
         Column {
-            FilterOptions(_filterOptions)
+            FilterOptions(filterOptions)
         }
     }
 }
