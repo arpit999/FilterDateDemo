@@ -3,11 +3,14 @@ package com.example.filterdatedemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -23,13 +26,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.filterdatedemo.ui.theme.FilterDateDemoTheme
 
 
 val filterOptions = Data.getFilterOptions(Data.generateSemiMonthlyStatements())
-fun changeChipChecked(item: FilterOption, checked: Boolean) =
+fun chipChangeListener(item: FilterOption, checked: Boolean) =
     filterOptions.find { it.option == item.option }?.let { task ->
         task.selected = checked
     }
@@ -39,21 +44,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FilterDateDemoTheme {
-
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Column {
-                        // show filter options
-                        FilterOptions(filterOptions)
-
-                        FilterList(filterOptions)
-                    }
-                }
+                FilterScreen()
             }
         }
     }
 }
 
+@Composable
+fun FilterScreen() {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Column {
+            // show filter options
+            FilterOptions(filterOptions)
+
+            FilterList(filterOptions)
+        }
+    }
+}
 
 @Composable
 fun FilterOptions(filterOptions: List<FilterOption>) {
@@ -62,27 +69,53 @@ fun FilterOptions(filterOptions: List<FilterOption>) {
             FilterChip(
                 filterOption = option,
                 onChipClick = {
-                    changeChipChecked(it, !it.selected)
-                    Data.printList(com.example.filterdatedemo.filterOptions)
+                    chipChangeListener(it, !it.selected)
+//                    Data.printList(filterOptions)
                 }
             )
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FilterList(filterOption: List<FilterOption>) {
     val list = mutableListOf<Statement>()
 
-    filterOption.forEach{
-        if (it.selected){
+    filterOption.forEach {
+        if (it.selected) {
             list += it.statement
         }
     }
+//
+    LazyColumn {
+        filterOption.forEach { option ->
+            if (option.selected) {
+                stickyHeader {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.LightGray)
+                    ) {
+                        Text(
+                            text = option.option,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.LightGray),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
 
-    LazyColumn{
-        items(list){
-            Text(modifier = Modifier.fillMaxWidth(),text = it.displayDate)
+                items(option.statement) {
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(), text = it.displayDate
+                    )
+                }
+            }
         }
     }
 
@@ -115,11 +148,7 @@ fun FilterChip(filterOption: FilterOption, onChipClick: (FilterOption) -> Unit) 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-//    val filters = Data.getFilterOptions(Data.generateSemiMonthlyStatements())
-
     FilterDateDemoTheme {
-        Column {
-            FilterOptions(filterOptions)
-        }
+        FilterScreen()
     }
 }
